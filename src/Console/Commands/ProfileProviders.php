@@ -41,8 +41,6 @@ class ProfileProviders extends Command
 
     public function handle(): int
     {
-        $this->applyConfigDefaults();
-
         if (!$this->option('dry-run') && !$this->confirm('This may affect application performance. Continue?', true)) {
             return 1;
         }
@@ -79,21 +77,6 @@ class ProfileProviders extends Command
         }
 
         return 0;
-    }
-
-    private function applyConfigDefaults(): void
-    {
-        if (!$this->option('top')) {
-            $this->optionResolver->setDefault('top', config('profile-provider.top', 20));
-        }
-
-        if (!$this->option('threshold')) {
-            $this->optionResolver->setDefault('threshold', config('profile-provider.threshold', 0.01));
-        }
-
-        if (!$this->option('sort')) {
-            $this->optionResolver->setDefault('sort', config('profile-provider.sort', 'total'));
-        }
     }
 
     private function initializeDiagnosticPatterns(): void
